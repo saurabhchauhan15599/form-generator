@@ -1,0 +1,48 @@
+@mixin heading($fontSize) {
+  font-family: Roboto-Bold;
+  font-size: $fontSize;
+}
+
+@mixin paragraph($fontFamily, $fontSize) {
+  font-family: $fontFamily;
+  font-size: $fontSize;
+}
+
+@mixin buttonAppearance($backgroundColor, $textColor) {
+  background-color: $backgroundColor;
+  color: $textColor;
+}
+
+@mixin typoGraphy(
+  $fontFamily: $fontFamilyPoppins,
+  $fontWeight: 500,
+  $fontSize: 15px,
+  $lineHeight: 100%,
+  $letterSpacing: 0px,
+  $color: "#000000"
+) {
+  font-family: $fontFamily !important;
+  font-weight: $fontWeight;
+  font-size: $fontSize;
+  line-height: $lineHeight;
+  letter-spacing: $letterSpacing;
+  color: $color !important;
+}
+
+@mixin displayFlex(
+  $flexDirection: row,
+  $justifyContent: flex-start,
+  $alignItems: flex-start,
+  $gap: "8px"
+) {
+  display: flex;
+  flex-direction: $flexDirection;
+  justify-content: $justifyContent;
+  align-items: $alignItems;
+  gap: $gap;
+}
+
+@function toRem($val) {
+  $remval: calc($val / 16) + rem;
+  @return $remval;
+}
