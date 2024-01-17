@@ -1,0 +1,12 @@
+.btnContainer {
+  display: flex;
+  gap: 5px;
+  padding: 1rem 0;
+  .button {
+    flex: 1;
+  }
+}
+
+.formWrapper {
+  overflow-y: scroll;
+}
