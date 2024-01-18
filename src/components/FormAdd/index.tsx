@@ -1,3 +1,4 @@
+import { Button } from "@mui/joy";
 import {
   AlertErrorIcon,
   SelectLabel,
@@ -13,10 +14,9 @@ import {
 } from "react-hook-form";
 import { FIELD_REQUIRED, FIELD_TYPE_OPTIONS } from "../../helpers/constants";
 import css from "./index.module.scss";
-import { Button } from "@mui/joy";
 
 const AddFormComponents: React.FC = () => {
-  const { control } = useFormContext();
+  const { control, setValue } = useFormContext();
 
   const { fields, remove, append } = useFieldArray({
     name: "options",
@@ -35,7 +35,7 @@ const AddFormComponents: React.FC = () => {
     });
   };
 
-  const IsDropdown = watchFields[0].value === "Dropdown";
+  const IsDropdown = watchFields[0] === "Dropdown";
 
   return (
     <div className={css.container}>
@@ -62,10 +62,19 @@ const AddFormComponents: React.FC = () => {
             {...field}
             required
             options={FIELD_TYPE_OPTIONS}
+            value={
+              field.value
+                ? {
+                    value: field.value,
+                    label: field.value,
+                  }
+                : ""
+            }
             label="Field Type"
             placeholder="Select field type.."
             error={fieldState.invalid}
             helperText={fieldState.error?.message}
+            onChange={(option: any) => setValue("type", option.value)}
           />
         )}
       />
@@ -127,10 +136,21 @@ const AddFormComponents: React.FC = () => {
             {...field}
             required
             options={FIELD_REQUIRED}
+            value={
+              field.value
+                ? {
+                    value: field.value,
+                    label: field.value,
+                  }
+                : ""
+            }
             label="Field Required"
             placeholder="Is field required?"
             error={fieldState.invalid}
             helperText={fieldState.error?.message}
+            onChange={(option: any) => {
+              setValue("isRequired", option.value);
+            }}
           />
         )}
       />
