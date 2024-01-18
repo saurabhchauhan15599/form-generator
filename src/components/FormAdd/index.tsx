@@ -69,7 +69,7 @@ const AddFormComponents: React.FC = () => {
           />
         )}
       />
-      <section>
+      <section className={css.dropdown}>
         {IsDropdown && (
           <Button
             type="button"
@@ -83,7 +83,7 @@ const AddFormComponents: React.FC = () => {
         {IsDropdown &&
           fields.map((field, index) => {
             return (
-              <div key={field.id}>
+              <div key={field.id} className={css.options}>
                 <Controller
                   name={`options.${index}.label`}
                   control={control}
@@ -134,36 +134,40 @@ const AddFormComponents: React.FC = () => {
           />
         )}
       />
-      <Controller
-        name="maxLength"
-        control={control}
-        render={({ field, fieldState }) => (
-          <TextField
-            {...field}
-            required
-            label="Max Length"
-            placeholder="Enter max number of character in field.."
-            error={fieldState.invalid}
-            helperText={fieldState.error?.message}
-            endIcon={fieldState.invalid && <AlertErrorIcon />}
+      {!IsDropdown && (
+        <>
+          <Controller
+            name="maxLength"
+            control={control}
+            render={({ field, fieldState }) => (
+              <TextField
+                {...field}
+                required
+                label="Max Length"
+                placeholder="Enter max number of character in field.."
+                error={fieldState.invalid}
+                helperText={fieldState.error?.message}
+                endIcon={fieldState.invalid && <AlertErrorIcon />}
+              />
+            )}
           />
-        )}
-      />
-      <Controller
-        name="minLength"
-        control={control}
-        render={({ field, fieldState }) => (
-          <TextField
-            {...field}
-            required
-            label="Min Length"
-            placeholder="Enter min number of character in field.."
-            error={fieldState.invalid}
-            helperText={fieldState.error?.message}
-            endIcon={fieldState.invalid && <AlertErrorIcon />}
+          <Controller
+            name="minLength"
+            control={control}
+            render={({ field, fieldState }) => (
+              <TextField
+                {...field}
+                required
+                label="Min Length"
+                placeholder="Enter min number of character in field.."
+                error={fieldState.invalid}
+                helperText={fieldState.error?.message}
+                endIcon={fieldState.invalid && <AlertErrorIcon />}
+              />
+            )}
           />
-        )}
-      />
+        </>
+      )}
     </div>
   );
 };

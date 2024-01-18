@@ -1,6 +1,6 @@
 import { Button, Modal, ModalDialog } from "@mui/joy";
 import React, { useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import AddFormComponents from "../../components/FormAdd";
 import css from "./index.module.scss";
 
@@ -28,6 +28,13 @@ const Dashboard: React.FC = () => {
     },
   });
 
+  const { handleSubmit, reset } = formGenerator;
+
+  const onSubmit: SubmitHandler<IFormGenerator> = (data) => {
+    console.log(data);
+    reset();
+  };
+
   return (
     <div className={css.container}>
       <Modal open={open} disableAutoFocus onClose={() => setOpen(!open)}>
@@ -38,7 +45,7 @@ const Dashboard: React.FC = () => {
           variant="outlined"
         >
           <div className={css.formWrapper}>
-            <form noValidate>
+            <form noValidate onSubmit={handleSubmit(onSubmit)}>
               <FormProvider {...formGenerator}>
                 <AddFormComponents />
               </FormProvider>
