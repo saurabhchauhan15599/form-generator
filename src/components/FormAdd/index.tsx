@@ -1,4 +1,4 @@
-import { Button } from "@mui/joy";
+import { Button, Input } from "@mui/joy";
 import {
   AlertErrorIcon,
   SelectLabel,
@@ -36,6 +36,8 @@ const AddFormComponents: React.FC = () => {
   };
 
   const IsDropdown = watchFields[0] === "Dropdown";
+  const IsInput = watchFields[0] === "Input";
+  const IsTextArea = watchFields[0] === "Text Area";
 
   return (
     <div className={css.container}>
@@ -97,30 +99,14 @@ const AddFormComponents: React.FC = () => {
                   name={`options.${index}.label`}
                   control={control}
                   render={({ field, fieldState }) => (
-                    <TextField
-                      {...field}
-                      required
-                      label="Label"
-                      placeholder="Enter label.."
-                      error={fieldState.invalid}
-                      helperText={fieldState.error?.message}
-                      endIcon={fieldState.invalid && <AlertErrorIcon />}
-                    />
+                    <Input {...field} required placeholder="Enter label.." />
                   )}
                 />
                 <Controller
                   name={`options.${index}.value`}
                   control={control}
                   render={({ field, fieldState }) => (
-                    <TextField
-                      {...field}
-                      required
-                      label="Value"
-                      placeholder="Enter value.."
-                      error={fieldState.invalid}
-                      helperText={fieldState.error?.message}
-                      endIcon={fieldState.invalid && <AlertErrorIcon />}
-                    />
+                    <Input {...field} required placeholder="Enter value.." />
                   )}
                 />
                 <TrashCanIcon onClick={() => remove(index)} />
@@ -154,7 +140,7 @@ const AddFormComponents: React.FC = () => {
           />
         )}
       />
-      {!IsDropdown && (
+      {IsInput || IsTextArea && (
         <>
           <Controller
             name="maxLength"

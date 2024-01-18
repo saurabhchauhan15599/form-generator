@@ -1,3 +1,5 @@
+@import "../../styles/resources";
+
 .btnContainer {
   display: flex;
   gap: 5px;
@@ -9,4 +11,14 @@
 
 .formWrapper {
   overflow-y: scroll;
+}
+
+.formFields {
+  min-width: 500px;
+  @include displayFlex(column, center, center);
+
+  .field {
+    display: flex;
+    padding: 1rem 0;
+  }
 }

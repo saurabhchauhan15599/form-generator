@@ -1,0 +1,11 @@
+@import "../../styles//resources";
+
+.container {
+  @include displayFlex(row, center, center);
+  background: $text-color;
+  padding: 1rem;
+}
+
+.text {
+  @include typoGraphy($font-family-inter, 500, 24px, 100%, 0px, $white);
+}
