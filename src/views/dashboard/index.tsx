@@ -103,7 +103,7 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className={css.container}>
+    <main className={css.container}>
       <Modal
         open={open}
         disableAutoFocus
@@ -151,11 +151,11 @@ const Dashboard: React.FC = () => {
       >
         Add Field
       </Button>
-      <section>
+      <section className={css.formFields}>
         <form noValidate onSubmit={DynamicFieldSubmission(handleSubmit)}>
           {formdata?.map((formField) => {
             return (
-              <div key={formField.id}>
+              <div key={formField.id} className={css.field}>
                 <Controller
                   name={formField.label}
                   control={control}
@@ -180,6 +180,14 @@ const Dashboard: React.FC = () => {
                         return (
                           <SelectLabel
                             {...field}
+                            value={
+                              field.value
+                                ? {
+                                    label: field.value,
+                                    value: field.value,
+                                  }
+                                : ""
+                            }
                             label={formField.label}
                             options={formField.options}
                             required={
@@ -234,19 +242,21 @@ const Dashboard: React.FC = () => {
               </div>
             );
           })}
-          <section className={css.btnContainer}>
-            <Button
-              variant="soft"
-              type="submit"
-              color="success"
-              className={css.button}
-            >
-              Submit
-            </Button>
-          </section>
+          {formdata.length > 1 && (
+            <section className={css.btnContainer}>
+              <Button
+                variant="soft"
+                type="submit"
+                color="success"
+                className={css.button}
+              >
+                Submit
+              </Button>
+            </section>
+          )}
         </form>
       </section>
-    </div>
+    </main>
   );
 };
 
