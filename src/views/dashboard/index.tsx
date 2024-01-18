@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Modal, ModalDialog, Radio } from "@mui/joy";
 import {
   CheckboxLabel,
@@ -26,40 +27,20 @@ export interface IFormGenerator {
   options?: { label: string; value: string }[];
 }
 
-interface IElement {
-  id: string;
-  element: IFormGenerator[];
-}
-
 interface IFormState {
   formdata: IFormGenerator[];
-  elementData?: IElement[];
+  finalFormData?: any;
   open: boolean;
 }
 
 const Dashboard: React.FC = () => {
   const [formState, setFormState] = useState<IFormState>({
     open: false,
-    elementData: [],
+    finalFormData: [],
     formdata: [],
   });
 
-  const { open, formdata } = formState;
-
-  // useEffect(() => {
-  //   if (formdata?.label) {
-  //     setFormState((prev) => ({
-  //       ...prev,
-  //       elementData: [
-  //         ...(prev.elementData || []),
-  //         {
-  //           id: v4(),
-  //           element: formdata,
-  //         },
-  //       ],
-  //     }));
-  //   }
-  // }, [formdata]);
+  const { open, formdata, finalFormData } = formState;
 
   const formGenerator = useForm<IFormGenerator>({
     mode: "onSubmit",
@@ -76,14 +57,7 @@ const Dashboard: React.FC = () => {
 
   const { handleSubmit: formGenerationSubmit, reset } = formGenerator;
 
-  const {
-    handleSubmit: DynamicFieldSubmission,
-    control,
-    formState: formstate,
-    trigger,
-    resetField,
-    clearErrors,
-  } = useForm({
+  const { handleSubmit: DynamicFieldSubmission, control } = useForm({
     mode: "onChange",
     reValidateMode: "onChange",
   });
@@ -99,7 +73,7 @@ const Dashboard: React.FC = () => {
   };
 
   const handleSubmit = (data: any) => {
-    console.log(data);
+    setFormState((prev) => ({ ...prev, finalFormData: data }));
   };
 
   return (
@@ -157,7 +131,7 @@ const Dashboard: React.FC = () => {
             return (
               <div key={formField.id} className={css.field}>
                 <Controller
-                  name={formField.label}
+                  name={`${formField.label}-${formField.id}`}
                   control={control}
                   rules={{ required: true }}
                   render={({ field }) => {
@@ -180,14 +154,8 @@ const Dashboard: React.FC = () => {
                         return (
                           <SelectLabel
                             {...field}
-                            value={
-                              field.value
-                                ? {
-                                    label: field.value,
-                                    value: field.value,
-                                  }
-                                : ""
-                            }
+                            getOptionLabel={(option: any) => option.label}
+                            getOptionValue={(option: any) => option.value}
                             label={formField.label}
                             options={formField.options}
                             required={
@@ -242,7 +210,7 @@ const Dashboard: React.FC = () => {
               </div>
             );
           })}
-          {formdata.length > 1 && (
+          {formdata.length > 0 && (
             <section className={css.btnContainer}>
               <Button
                 variant="soft"
@@ -256,6 +224,7 @@ const Dashboard: React.FC = () => {
           )}
         </form>
       </section>
+      {Array.isArray(finalFormData) ? "" : JSON.stringify(finalFormData)}
     </main>
   );
 };

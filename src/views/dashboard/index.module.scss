@@ -1,5 +1,10 @@
 @import "../../styles/resources";
 
+.container {
+  @include displayFlex(column, center, center, 20px);
+  padding: 1rem;
+}
+
 .btnContainer {
   display: flex;
   gap: 5px;

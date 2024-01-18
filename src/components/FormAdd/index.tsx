@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Input } from "@mui/joy";
 import {
   AlertErrorIcon,
@@ -16,7 +17,7 @@ import { FIELD_REQUIRED, FIELD_TYPE_OPTIONS } from "../../helpers/constants";
 import css from "./index.module.scss";
 
 const AddFormComponents: React.FC = () => {
-  const { control, setValue } = useFormContext();
+  const { control, setValue, clearErrors } = useFormContext();
 
   const { fields, remove, append } = useFieldArray({
     name: "options",
@@ -76,7 +77,10 @@ const AddFormComponents: React.FC = () => {
             placeholder="Select field type.."
             error={fieldState.invalid}
             helperText={fieldState.error?.message}
-            onChange={(option: any) => setValue("type", option.value)}
+            onChange={(option: any) => {
+              clearErrors("type");
+              setValue("type", option.value);
+            }}
           />
         )}
       />
@@ -98,14 +102,14 @@ const AddFormComponents: React.FC = () => {
                 <Controller
                   name={`options.${index}.label`}
                   control={control}
-                  render={({ field, fieldState }) => (
+                  render={({ field }) => (
                     <Input {...field} required placeholder="Enter label.." />
                   )}
                 />
                 <Controller
                   name={`options.${index}.value`}
                   control={control}
-                  render={({ field, fieldState }) => (
+                  render={({ field }) => (
                     <Input {...field} required placeholder="Enter value.." />
                   )}
                 />
@@ -135,12 +139,13 @@ const AddFormComponents: React.FC = () => {
             error={fieldState.invalid}
             helperText={fieldState.error?.message}
             onChange={(option: any) => {
+              clearErrors("isRequired");
               setValue("isRequired", option.value);
             }}
           />
         )}
       />
-      {IsInput || IsTextArea && (
+      {(IsInput || IsTextArea) && (
         <>
           <Controller
             name="maxLength"
