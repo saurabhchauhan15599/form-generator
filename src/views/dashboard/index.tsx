@@ -5,6 +5,7 @@ import {
   SelectLabel,
   TextAreaLabel,
   TextField,
+  TrashCanIcon,
 } from "@saurabh-chauhan/sc-components-library";
 import React, { useState } from "react";
 import {
@@ -74,6 +75,12 @@ const Dashboard: React.FC = () => {
 
   const handleSubmit = (data: any) => {
     setFormState((prev) => ({ ...prev, finalFormData: data }));
+  };
+
+  const handleClick = (idx: string) => {
+    const targetIndex = formdata.findIndex((val) => val.id === idx);
+    formdata.splice(targetIndex, 1);
+    setFormState((prev) => ({ ...prev, formdata: formdata }));
   };
 
   return (
@@ -206,6 +213,9 @@ const Dashboard: React.FC = () => {
                         return <></>;
                     }
                   }}
+                />
+                <TrashCanIcon
+                  onClick={() => handleClick(formField.id as string)}
                 />
               </div>
             );
