@@ -25,5 +25,8 @@
   .field {
     display: flex;
     padding: 1rem 0;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
   }
 }
